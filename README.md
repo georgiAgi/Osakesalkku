@@ -1,0 +1,2 @@
+# Osakesalkku
+Osakesalkkusimulaattori ohjelmoinnin aineopintojen harjoitustyönä.
