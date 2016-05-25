@@ -1,4 +1,6 @@
 # Osakesalkku
 Osakesalkkusimulaattori ohjelmoinnin aineopintojen harjoitustyönä.
 
-Treenaan myös repon käyttöä.
+[aiheen kuvaus](dokumentaatio/aiheenKuvausJaMääritelmä.md)
+
+![luokkakaavio](dokumentaatio/Osakesalkku_luokkakaavio.png "Suunnitteluvaiheen luokkakaavio")

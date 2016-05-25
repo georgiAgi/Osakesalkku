@@ -8,7 +8,7 @@ public class Laskuri {
     }
     
     public int salkunArvonMuutos() {
-        return salkku.arvo()-salkku.alkuArvo();
+        return salkku.arvo() - salkku.alkuArvo();
     }
     
     public int salkunArvonSuhteellinenMuutos() {
@@ -46,7 +46,7 @@ public class Laskuri {
         int osakkeidenMaara = salkunOsakkeidenMaara();
         for (Osake i : salkku.getOsakkeet()) {
             for (Osake j : salkku.getOsakkeet()) {
-                volatiliteetti += (i.getMaara()/osakkeidenMaara) * (j.getMaara()/osakkeidenMaara) * korrelaatio(i, j) * i.getRiski().getVolatiliteetti() * j.getRiski().getVolatiliteetti();
+                volatiliteetti += (i.getMaara() / osakkeidenMaara) * (j.getMaara() / osakkeidenMaara) * korrelaatio(i, j) * i.getRiski().getVolatiliteetti() * j.getRiski().getVolatiliteetti();
             }
         }
         return volatiliteetti;
