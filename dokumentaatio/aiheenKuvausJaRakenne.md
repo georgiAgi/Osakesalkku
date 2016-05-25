@@ -9,7 +9,6 @@ Oletuksena on, että ainakin alussa kaikki osakkeet ovat Helsingin pörssistä (
 **Salkunhoitajan toiminnot:**
 * salkun tarkastelu
 * osakkeiden lisäys/poisto
+* osakkeiden riskin lisääminen/muokkaaminen
+* salkun riskin tarkastelu
 
-**Järjestelmän toiminnot:**
-* laskenta (mm. riski, arvo)
-* ilmoittaa, jos riski liian korkea
