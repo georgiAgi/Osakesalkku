@@ -1,6 +1,8 @@
 # Osakesalkku
 Osakesalkkusimulaattori ohjelmoinnin aineopintojen harjoitustyönä.
 
-[aiheen kuvaus](dokumentaatio/aiheenKuvausJaRakenne.md)
+[Aiheen kuvaus](dokumentaatio/aiheenKuvausJaRakenne.md)
+
+[Tuntikirjanpito](dokumentaatio/tuntikirjanpito.md)
 
 ![luokkakaavio](dokumentaatio/Osakesalkku_luokkakaavio.png "Suunnitteluvaiheen luokkakaavio")
