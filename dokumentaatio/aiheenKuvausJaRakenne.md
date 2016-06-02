@@ -11,7 +11,3 @@ Oletuksena on, että ainakin alussa kaikki osakkeet ovat Helsingin pörssistä (
 * osakkeiden lisäys/poisto
 * osakkeiden riskin lisääminen/muokkaaminen
 * salkun riskin tarkastelu
-<<<<<<< HEAD
-
-=======
->>>>>>> a52e7e8f86fb91cceb562dab3a6020e5d7d05fb0
