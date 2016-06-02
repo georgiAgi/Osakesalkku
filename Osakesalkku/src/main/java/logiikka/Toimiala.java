@@ -20,4 +20,20 @@ public enum Toimiala {
     public Double getKorrelaatio() {
         return this.korrelaatioMarkkinanKanssa;
     }
+    
+    public static Toimiala merkkijonoToimialaksi(String merkkijono) {
+        for (Toimiala t : Toimiala.values()) {
+            if (merkkijono.equals(t.name())) {
+                return t;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        String toimiala = name().toLowerCase();
+        String palautettava = toimiala.substring(0, 1).toUpperCase() + toimiala.substring(1);
+        return palautettava;
+    }
 }

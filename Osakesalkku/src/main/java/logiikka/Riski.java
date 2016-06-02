@@ -5,13 +5,17 @@ public class Riski {
     private Salkku salkku;
     private Double beta;
     private Double volatiliteetti;
-    
-    public Riski(Osake osake) {
-        this.osake = osake;
-    }
-    
-    public Riski(Salkku salkku) {
+
+    public Riski(Salkku salkku, Double beta, Double volatiliteetti) {
         this.salkku = salkku;
+        this.beta = beta;
+        this.volatiliteetti = volatiliteetti;
+    }
+
+    public Riski(Osake osake, Double beta, Double volatiliteetti) {
+        this.osake = osake;
+        this.beta = beta;
+        this.volatiliteetti = volatiliteetti;
     }
 
     public Double getBeta() {

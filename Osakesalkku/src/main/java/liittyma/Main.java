@@ -19,7 +19,7 @@ public class Main {
         for (Osake o : osakkeet) {
             salkku.lisaaOsake(o);
         }
-        salkku.ostaOsaketta(new Osake("Nokia", 5, -500));
+        salkku.vaihdaOsaketta(new Osake("Nokia", 5, -500));
 
         int vastaus = salkku.arvo();
 

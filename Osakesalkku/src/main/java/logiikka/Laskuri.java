@@ -11,44 +11,49 @@ public class Laskuri {
         return salkku.arvo() - salkku.alkuArvo();
     }
     
-    public int salkunArvonSuhteellinenMuutos() {
-        return (salkku.arvo() - salkku.alkuArvo()) / salkku.alkuArvo() * 100;
+    public int salkunArvonKasvuprosentti() {
+        double desimaali = (double) salkunArvonMuutos() / salkku.alkuArvo();
+        desimaali *= 100;
+        return (int) desimaali;
     }
     
     public int osakkeenArvonMuutos(Osake osake) {
         return osake.getHinta() - osake.getAlkuArvo();
     }
     
-    public int osakkeenArvonSuhteellinenMuutos(Osake osake) {
-        return osakkeenArvonMuutos(osake) / osake.getAlkuArvo() * 100;
+    public int osakkeenArvonKasvuprosentti(Osake osake) {
+        double desimaali = (double) osakkeenArvonMuutos(osake) / osake.getAlkuArvo();
+        desimaali *= 100;
+        return (int) desimaali;
     }
     
     public double salkunBeta() {
         double beta = 0;
-        int osakkeidenMaara = 0;
+        int osakkeidenPainotettuMaara = 0;
         for (Osake o : salkku.getOsakkeet()) {
-            beta += o.getMaara() * o.getRiski().getBeta();
-            osakkeidenMaara += o.getMaara();
+            beta += o.getMaara() * o.getHinta() * o.getRiski().getBeta();
+            osakkeidenPainotettuMaara += o.getMaara() * o.getHinta();
         }
-        return beta / osakkeidenMaara; //osakkeiden beta-lukujen painotettu keskiarvo;
+        return beta / osakkeidenPainotettuMaara; //osakkeiden beta-lukujen painotettu keskiarvo;
     }
     
-    public int salkunOsakkeidenMaara() {
+    public int salkunOsakkeidenPainotettuMaara() {
         int maara = 0;
         for (Osake o : salkku.getOsakkeet()) {
-            maara += o.getMaara();
+            maara += o.getMaara() * o.getHinta();
         }
         return maara;
     }
     
     public double salkunVolatiliteetti() {
         double volatiliteetti = 0;
-        int osakkeidenMaara = salkunOsakkeidenMaara();
+        double osakkeidenMaara = salkunOsakkeidenPainotettuMaara();
         for (Osake i : salkku.getOsakkeet()) {
             for (Osake j : salkku.getOsakkeet()) {
-                volatiliteetti += (i.getMaara() / osakkeidenMaara) * (j.getMaara() / osakkeidenMaara) * korrelaatio(i, j) * i.getRiski().getVolatiliteetti() * j.getRiski().getVolatiliteetti();
+                volatiliteetti += (i.getMaara() * i.getHinta() / osakkeidenMaara) * (j.getMaara() * j.getHinta() / osakkeidenMaara) * korrelaatio(i, j) * i.getRiski().getVolatiliteetti() * j.getRiski().getVolatiliteetti();
             }
         }
+        volatiliteetti = Math.sqrt(volatiliteetti);
         return volatiliteetti;
     }
     
@@ -56,6 +61,6 @@ public class Laskuri {
         if (a.equals(b)) {
             return 1.0;
         }
-        return Math.min((a.getToimiala().getKorrelaatio() + b.getToimiala().getKorrelaatio()) / 2, 1.0);
-    }
+        return Math.min((a.getToimiala().getKorrelaatio() + b.getToimiala().getKorrelaatio()) / 2, 1.0); //korrelaatio korkeintaan 1
+    } //oikeasti korrelaatio vaatisi hirveästi dataa osakkeista, nyt vain vertailen toimialoja, arviot ovat epätarkkoja, mutta kelpaavat varmaan tähän projektiin
 }

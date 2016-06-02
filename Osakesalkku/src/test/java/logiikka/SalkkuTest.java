@@ -29,26 +29,33 @@ public class SalkkuTest {
         Osake a = new Osake("Talvivaara", 1, 1000);
         Osake b = new Osake("Nokia", 6, 1000);
         Osake c = new Osake("Nordea", 10, 1000);
+        
+        a.setToimiala(Toimiala.PERUSTEOLLISUUS);
+        b.setToimiala(Toimiala.TEKNOLOGIA);
+        c.setToimiala(Toimiala.RAHOITUS);
+        
+        a.setRiski(new Riski(a, 1.2, 0.3));
+        b.setRiski(new Riski(b, 0.5, 0.2));
+        c.setRiski(new Riski(c, 0.7, 0.24));
+        
         salkku = new Salkku();
         
         osakkeet = new ArrayList();
         osakkeet.add(a);
         osakkeet.add(b);
         osakkeet.add(c);
+        
+        for (Osake o : osakkeet) {
+            salkku.lisaaOsake(o);
+        }
     }
     
     @After
     public void tearDown() {
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
     @Test
     public void salkkuLisaaOsakkeetOikein() {
-        for (Osake o : osakkeet) {
-            salkku.lisaaOsake(o);
-        }
-        
         String vastaus = "";
         
         for (Osake o : salkku.getOsakkeet()) {
@@ -60,10 +67,6 @@ public class SalkkuTest {
     
     @Test
     public void salkkuEiLisaaSamaaOsaketta() {
-        for (Osake o : osakkeet) {
-            salkku.lisaaOsake(o);
-        }
-        
         salkku.lisaaOsake(new Osake("Nokia", 5, 500));
 
         String vastaus = "";
@@ -77,10 +80,6 @@ public class SalkkuTest {
     
     @Test
     public void salkussaOnOikeaArvo() {
-        for (Osake o : osakkeet) {
-            salkku.lisaaOsake(o);
-        }
-
         int vastaus = salkku.arvo();
         
         assertEquals(17000, vastaus);
@@ -88,10 +87,7 @@ public class SalkkuTest {
     
     @Test
     public void salkussaOnOikeaArvoJoOmistetunOsakkeenLisayksenJalkeen() {
-        for (Osake o : osakkeet) {
-            salkku.lisaaOsake(o);
-        }
-        salkku.ostaOsaketta(new Osake("Nokia", 5, 500));
+        salkku.vaihdaOsaketta(new Osake("Nokia", 5, 500));
         
         int vastaus = salkku.arvo();
 
@@ -100,9 +96,6 @@ public class SalkkuTest {
     
     @Test
     public void salkkuunEiVoiLisataNegatiivisiaOsakkeita() {
-        for (Osake o : osakkeet) {
-            salkku.lisaaOsake(o);
-        }
         salkku.lisaaOsake(new Osake("Nokia", -5, 500));
 
         int vastaus = salkku.arvo();
@@ -112,13 +105,32 @@ public class SalkkuTest {
     
     @Test
     public void salkkuunEiVoiOstaaNegatiivisiaOsakkeita() {
-        for (Osake o : osakkeet) {
-            salkku.lisaaOsake(o);
-        }
-        salkku.ostaOsaketta(new Osake("Nokia", -5, 500));
+        salkku.vaihdaOsaketta(new Osake("Nokia", -5, 500));
 
         int vastaus = salkku.arvo();
 
         assertEquals(17000, vastaus);
+    }
+    
+    @Test
+    public void salkkuLoytaaOsakkeenNimenPerusteella() {
+        Osake vastaus = salkku.osakeNimenPerusteella("Nordea");
+
+        assertEquals(new Osake("Nordea", 0, 0), vastaus);
+    }
+    
+    @Test
+    public void salkkuPalauttaaNullJosOsakettaEiOleNimenPerusteella() {
+        Osake vastaus = salkku.osakeNimenPerusteella("Gazprom");
+
+        assertEquals(null, vastaus);
+    }
+    
+    @Test
+    public void salkkuLisaaOsakkeenJosVaihdetaanOsakettaJotaEiOmisteta() {
+        salkku.vaihdaOsaketta(new Osake("Cargotec", 4, 5000));
+        Osake vastaus = salkku.getOsakkeet().get(salkku.getOsakkeet().size()-1);
+        
+        assertEquals(new Osake("Cargotec", 0, 0), vastaus);
     }
 }

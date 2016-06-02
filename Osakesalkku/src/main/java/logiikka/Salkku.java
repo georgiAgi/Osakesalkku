@@ -42,6 +42,15 @@ public class Salkku {
         }
         return true;
     }
+    
+    public Osake osakeNimenPerusteella(String nimi) {
+        for (Osake o : osakkeet) {
+            if (o.getNimi().equals(nimi)) {
+                return o;
+            }
+        }
+        return null;
+    }
 
     public List<Osake> getOsakkeet() {
         return osakkeet;
@@ -52,13 +61,13 @@ public class Salkku {
             return;
         }
         if (osakkeet.contains(osake)) {
-            ostaOsaketta(osake); //ostaa osaketta, jos se omistetaan jo
+            vaihdaOsaketta(osake); //ostaa osaketta, jos se omistetaan jo
             return;
         }
         osakkeet.add(osake);
     }
     
-    public void ostaOsaketta(Osake osake) { //toimii myös myyntinä toistaiseksi
+    public void vaihdaOsaketta(Osake osake) { //osto ja myynti, turha eriyttää kahdeksi lähes identtiseksi metodiksi
         if (!osakkeet.contains(osake)) {
             lisaaOsake(osake); //lisää osakkeen salkkuun eli ostaa sitä ensimmäisen kerran
             return;
@@ -69,13 +78,40 @@ public class Salkku {
         }
         for (Osake o : osakkeet) {
             if (o.equals(osake)) {
-                o.setHinta(arvo);
                 int maara = o.getMaara();
+                
+                if (osake.getMaara() + maara < 0) {
+                    return; //toistaiseksi ainakaan osakkeita ei voi shortata, eli osakkeiden määrä ei voi painua negatiiviseksi
+                }
+                
                 maara += osake.getMaara();
+                if (maara == 0) {
+                    poistaOsake(o); //poistaa osakkeen salkusta, jos loputkin myydään pois
+                    return;
+                }
+                
                 o.setMaara(maara);
+                o.setHinta(arvo);
+                o.setToimiala(osake.getToimiala());
+                o.setRiski(osake.getRiski());
             }
         }
-        return;
+    }
+
+    public Riski getRiski() {
+        return riski;
+    }
+
+    public void setRiski(Riski riski) {
+        this.riski = riski;
+    }
+    
+    public void poistaOsake(Osake osake) {
+        for (int i = 0; i < osakkeet.size(); i++) {
+            if (osakkeet.get(i) == osake) {
+                osakkeet.remove(i);
+            }
+        }
     }
     
     public int alkuArvo() {
