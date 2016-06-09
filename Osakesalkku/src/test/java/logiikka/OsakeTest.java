@@ -41,31 +41,31 @@ public class OsakeTest {
     
     @Test
     public void konstruktoriAsettaaHinnanOikein() {
-        int vastaus = osake.getHinta();
+        double vastaus = osake.getHinta();
 
-        assertEquals(1, vastaus);
+        assertEquals(1, vastaus, 0.02);
     }
     
     @Test
     public void AlkuArvoOnOikeinHinnanMuutoksenJalkeen() {
         osake.setHinta(100);
-        int vastaus = osake.getAlkuArvo();
+        double vastaus = osake.getAlkuArvo();
         
-        assertEquals(1, vastaus);
+        assertEquals(1, vastaus, 0.02);
     }
     
     @Test
     public void konstruktoriAsettaaAlkuArvonOikein() {
-        int vastaus = osake.getAlkuArvo();
+        double vastaus = osake.getAlkuArvo();
 
-        assertEquals(1, vastaus);
+        assertEquals(1, vastaus, 0.02);
     }
     
     @Test
     public void hintaaEiVoiAsettaaNegatiiviseksi() {
         osake.setHinta(-10);
-        int vastaus = osake.getHinta();
+        double vastaus = osake.getHinta();
 
-        assertEquals(1, vastaus);
+        assertEquals(1, vastaus, 0.02);
     }
 }

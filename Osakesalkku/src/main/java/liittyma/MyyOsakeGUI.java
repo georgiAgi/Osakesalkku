@@ -1,12 +1,20 @@
 package liittyma;
 
+import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import logiikka.*;
 
+/**
+ *
+ * Luokka tarjoaa käyttäjälle käyttöliittymän omistetun osakkeen myyntiin.
+ *
+ * @author gexgex
+ */
 public class MyyOsakeGUI extends javax.swing.JFrame {
+
     OsakesalkkuGUI vanhempi;
 
     public MyyOsakeGUI() {
@@ -14,19 +22,21 @@ public class MyyOsakeGUI extends javax.swing.JFrame {
     }
 
     public MyyOsakeGUI(OsakesalkkuGUI aThis) {
-        super("MyyOsakettaGUI");
+        super("MyyOsakeGUI");
         this.vanhempi = aThis;
         initComponents();
         listModel = new DefaultListModel();
         osakkeetList.setModel(listModel);
         luoLista();
+        df3 = new DecimalFormat("0.000");
     }
-    
+
     public void luoLista() {
         for (Osake o : vanhempi.getSalkku().getOsakkeet()) {
             listModel.addElement(o.getNimi());
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,6 +66,7 @@ public class MyyOsakeGUI extends javax.swing.JFrame {
         paluuButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Myy osake");
 
         osakkeetList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -229,6 +240,10 @@ public class MyyOsakeGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_myyKaikkiCheckBoxActionPerformed
 
     private void osakkeetListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_osakkeetListMouseClicked
+        if (vanhempi.getSalkku().getOsakkeet().isEmpty()) {
+            return;
+        }
+
         JList lista = (JList) evt.getSource();
         int index = lista.locationToIndex(evt.getPoint());
         if (index >= 0) {
@@ -236,11 +251,11 @@ public class MyyOsakeGUI extends javax.swing.JFrame {
             String osakkeenNimi = o.toString();
             osake = vanhempi.getSalkku().osakeNimenPerusteella(osakkeenNimi);
         }
-        
+
         osakeLabel.setText("Osake: " + osake.getNimi());
         maaraLabel.setText(String.valueOf(osake.getMaara()));
-        hintaLabel.setText(String.valueOf(osake.getHinta()));
-        alkuhintaLabel.setText(String.valueOf(osake.getAlkuArvo()));
+        hintaLabel.setText(String.valueOf(df3.format(osake.getHinta())));
+        alkuhintaLabel.setText(String.valueOf(df3.format(osake.getAlkuArvo())));
     }//GEN-LAST:event_osakkeetListMouseClicked
 
     private void maaraTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_maaraTextFieldKeyPressed
@@ -250,19 +265,63 @@ public class MyyOsakeGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_maaraTextFieldKeyPressed
 
     private void myyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myyButtonActionPerformed
+        if (osake == null || hintaTextField.getText().isEmpty() || maaraTextField.getText().isEmpty()) {
+            tietoPuuttuu();
+            return;
+        }
+
+        if (!onNumeerinen(hintaTextField.getText()) || !onKokonaisluku(maaraTextField.getText())) {
+            tietoVaarassaMuodossa();
+            return;
+        }
+
         String nimi = osake.getNimi();
-        int hinta = Integer.parseInt(hintaTextField.getText());
+        double hinta = Double.parseDouble(hintaTextField.getText());
         int maara = Math.negateExact(Integer.parseInt(maaraTextField.getText()));
-        
-        vanhempi.myyOsake(new Osake(nimi, hinta, maara));
-        
+
+        this.myytyOsake = new Osake(nimi, hinta, maara);
+
+        MyyntiOnnistuiGUI myyntiIkkuna = new MyyntiOnnistuiGUI(this);
+        myyntiIkkuna.ilmoitus();
+        myyntiIkkuna.setVisible(true);
+
+        vanhempi.myyOsake(myytyOsake);
+
         super.dispose();
     }//GEN-LAST:event_myyButtonActionPerformed
 
     private void paluuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paluuButtonActionPerformed
         super.dispose();
     }//GEN-LAST:event_paluuButtonActionPerformed
-    
+
+    private void tietoPuuttuu() {
+        TietoPuuttuuGUI huom = new TietoPuuttuuGUI();
+        huom.setVisible(true);
+    }
+
+    private void tietoVaarassaMuodossa() {
+        VaaraMuotoGUI huom = new VaaraMuotoGUI();
+        huom.setVisible(true);
+    }
+
+    private boolean onKokonaisluku(String str) {
+        try {
+            int d = Integer.parseInt(str);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean onNumeerinen(String str) {
+        try {
+            double d = Double.parseDouble(str);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -317,4 +376,14 @@ public class MyyOsakeGUI extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     private DefaultListModel listModel;
     private Osake osake;
+    private Osake myytyOsake;
+    private DecimalFormat df3;
+
+    public Osake getOsake() {
+        return osake;
+    }
+
+    public Osake getMyytyOsake() {
+        return myytyOsake;
+    }
 }

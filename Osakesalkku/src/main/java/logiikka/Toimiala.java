@@ -1,5 +1,10 @@
 package logiikka;
-
+/**
+ * Enum-luokka sisältää käytettävissä olevat toimialat, sekä näihin liittyvät 
+ * korrelaatiot markkinan kanssa.
+ * 
+ * @author gexgex
+ */
 public enum Toimiala {
     PERUSTEOLLISUUS(1.029),
     TEOLLISUUSTUOTTEET(0.63465116),
@@ -21,6 +26,11 @@ public enum Toimiala {
         return this.korrelaatioMarkkinanKanssa;
     }
     
+    /**
+     * Metodi palauttaa toimialan parametrina olevan nimen perusteella.
+     *
+     * @param mekkijono Käyttäjän syöttämä toimialan nimi ISOIN kirjaimin
+     */
     public static Toimiala merkkijonoToimialaksi(String merkkijono) {
         for (Toimiala t : Toimiala.values()) {
             if (merkkijono.equals(t.name())) {
@@ -30,6 +40,10 @@ public enum Toimiala {
         return null;
     }
 
+    /**
+     * Metodi palauttaa toimialan nimen isolla alkukirjaimella kirjoitettuna 
+     * String-tyyppisenä oliona..
+     */
     @Override
     public String toString() {
         String toimiala = name().toLowerCase();

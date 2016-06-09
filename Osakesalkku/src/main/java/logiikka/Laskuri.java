@@ -1,5 +1,10 @@
 package logiikka;
 
+/**
+ * Luokka tarjoaa useita salkun tunnuslukujen laskentaan tarvittavia metodeita.
+ * 
+ * @author gexgex
+ */
 public class Laskuri {
     private Salkku salkku;
     
@@ -7,37 +12,56 @@ public class Laskuri {
         this.salkku = salkku;
     }
     
-    public int salkunArvonMuutos() {
+    /**
+     * Metodi laskee ja palauttaa salkun arvonmuutoksen euroissa.
+     */
+    public double salkunArvonMuutos() {
         return salkku.arvo() - salkku.alkuArvo();
     }
     
-    public int salkunArvonKasvuprosentti() {
+    /**
+     * Metodi laskee ja palauttaa salkun prosentuaalisen kasvun.
+     */
+    public double salkunArvonKasvuprosentti() {
         double desimaali = (double) salkunArvonMuutos() / salkku.alkuArvo();
         desimaali *= 100;
-        return (int) desimaali;
+        return desimaali;
     }
     
-    public int osakkeenArvonMuutos(Osake osake) {
+    /**
+     * Metodi palauttaa parametrina olevan osakkeen arvonmuutoksen euroissa.
+     * 
+     * @param   osake   Osake, jonka arvonmuutos lasketaan
+     */
+    public double osakkeenArvonMuutos(Osake osake) {
         return osake.getHinta() - osake.getAlkuArvo();
     }
     
-    public int osakkeenArvonKasvuprosentti(Osake osake) {
+    /**
+     * Metodi palauttaa parametrina olevan osakkeen prosentuaalisen kasvun.
+     *
+     * @param osake Osake, jonka arvonmuutos lasketaan
+     */
+    public double osakkeenArvonKasvuprosentti(Osake osake) {
         double desimaali = (double) osakkeenArvonMuutos(osake) / osake.getAlkuArvo();
         desimaali *= 100;
-        return (int) desimaali;
+        return desimaali;
     }
     
+    /**
+     * Metodi palauttaa osakesalkun markkinabetan.
+     * 
+     * HUOM: Kuvaa salkun ja markkinoiden kehityksen korrelaatiota.
+     */
     public double salkunBeta() {
         double beta = 0;
-        int osakkeidenPainotettuMaara = 0;
         for (Osake o : salkku.getOsakkeet()) {
             beta += o.getMaara() * o.getHinta() * o.getRiski().getBeta();
-            osakkeidenPainotettuMaara += o.getMaara() * o.getHinta();
         }
-        return beta / osakkeidenPainotettuMaara; //osakkeiden beta-lukujen painotettu keskiarvo;
+        return beta / salkunOsakkeidenPainotettuMaara(); //osakkeiden beta-lukujen painotettu keskiarvo;
     }
     
-    public int salkunOsakkeidenPainotettuMaara() {
+    private int salkunOsakkeidenPainotettuMaara() {
         int maara = 0;
         for (Osake o : salkku.getOsakkeet()) {
             maara += o.getMaara() * o.getHinta();
@@ -45,6 +69,11 @@ public class Laskuri {
         return maara;
     }
     
+    /**
+     * Metodi palauttaa osakesalkun volatiliteetin eli keskihajonnan.
+     * 
+     * HUOM: Metodi käyttää erittäin karkeaa arviota osakkeiden korrelaatiosta.
+     */
     public double salkunVolatiliteetti() {
         double volatiliteetti = 0;
         double osakkeidenMaara = salkunOsakkeidenPainotettuMaara();
@@ -57,7 +86,7 @@ public class Laskuri {
         return volatiliteetti;
     }
     
-    public double korrelaatio(Osake a, Osake b) {
+    private double korrelaatio(Osake a, Osake b) {
         if (a.equals(b)) {
             return 1.0;
         }

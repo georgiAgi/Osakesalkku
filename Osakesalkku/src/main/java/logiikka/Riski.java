@@ -1,19 +1,17 @@
 package logiikka;
 
+/**
+ * Luokka kuvaa riskiä markkinabetan ja volatiliteetin avulla. Kuvaa sekä
+ * yksittäisten osakkeiden että koko salkun riskiä.
+ *
+ * @author gexgex
+ */
 public class Riski {
-    private Osake osake;
-    private Salkku salkku;
+
     private Double beta;
     private Double volatiliteetti;
 
-    public Riski(Salkku salkku, Double beta, Double volatiliteetti) {
-        this.salkku = salkku;
-        this.beta = beta;
-        this.volatiliteetti = volatiliteetti;
-    }
-
-    public Riski(Osake osake, Double beta, Double volatiliteetti) {
-        this.osake = osake;
+    public Riski(Double beta, Double volatiliteetti) {
         this.beta = beta;
         this.volatiliteetti = volatiliteetti;
     }
@@ -30,6 +28,12 @@ public class Riski {
         return volatiliteetti;
     }
 
+    /**
+     * Metodi tarkistaa, ettei käyttäjän syöttämä volatiliteetti ole 
+     * negatiivinen ja asettaa uuden volatiliteetin.
+     *
+     * @param volatiliteetti Käyttäjän syöttämä volatiliteetti
+     */
     public void setVolatiliteetti(Double volatiliteetti) {
         if (volatiliteetti < 0) {
             return;

@@ -1,6 +1,7 @@
 package logiikka;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -34,9 +35,9 @@ public class SalkkuTest {
         b.setToimiala(Toimiala.TEKNOLOGIA);
         c.setToimiala(Toimiala.RAHOITUS);
         
-        a.setRiski(new Riski(a, 1.2, 0.3));
-        b.setRiski(new Riski(b, 0.5, 0.2));
-        c.setRiski(new Riski(c, 0.7, 0.24));
+        a.setRiski(new Riski(1.2, 0.3));
+        b.setRiski(new Riski(0.5, 0.2));
+        c.setRiski(new Riski(0.7, 0.24));
         
         salkku = new Salkku();
         
@@ -80,36 +81,36 @@ public class SalkkuTest {
     
     @Test
     public void salkussaOnOikeaArvo() {
-        int vastaus = salkku.arvo();
+        double vastaus = salkku.arvo();
         
-        assertEquals(17000, vastaus);
+        assertEquals(17000, vastaus, 0.02);
     }
     
     @Test
     public void salkussaOnOikeaArvoJoOmistetunOsakkeenLisayksenJalkeen() {
         salkku.vaihdaOsaketta(new Osake("Nokia", 5, 500));
         
-        int vastaus = salkku.arvo();
+        double vastaus = salkku.arvo();
 
-        assertEquals(18500, vastaus);
+        assertEquals(18500, vastaus, 0.02);
     }
     
     @Test
     public void salkkuunEiVoiLisataNegatiivisiaOsakkeita() {
         salkku.lisaaOsake(new Osake("Nokia", -5, 500));
 
-        int vastaus = salkku.arvo();
+        double vastaus = salkku.arvo();
 
-        assertEquals(17000, vastaus);
+        assertEquals(17000, vastaus, 0.02);
     }
     
     @Test
     public void salkkuunEiVoiOstaaNegatiivisiaOsakkeita() {
         salkku.vaihdaOsaketta(new Osake("Nokia", -5, 500));
 
-        int vastaus = salkku.arvo();
+        double vastaus = salkku.arvo();
 
-        assertEquals(17000, vastaus);
+        assertEquals(17000, vastaus, 0.02);
     }
     
     @Test
@@ -132,5 +133,23 @@ public class SalkkuTest {
         Osake vastaus = salkku.getOsakkeet().get(salkku.getOsakkeet().size()-1);
         
         assertEquals(new Osake("Cargotec", 0, 0), vastaus);
+    }
+    
+    @Test
+    public void salkkuPoistaaOikein() {
+        salkku.poistaOsake(new Osake("Talvivaara", 4, 5000));
+        int vastaus = salkku.getOsakkeet().size();
+        
+        assertEquals(2, vastaus);
+    }
+    
+    @Test
+    public void salkkuLaskeeToimialatOikein() {
+        Osake osake = new Osake("Sampo", 13, 500);
+        osake.setToimiala(Toimiala.RAHOITUS);
+        salkku.lisaaOsake(osake);
+        int vastaus = salkku.toimialojenLkm();
+
+        assertEquals(3, vastaus);
     }
 }

@@ -1,15 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package liittyma;
 
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.Enumeration;
 import javax.swing.AbstractButton;
 import javax.swing.JRadioButton;
 import logiikka.*;
 
+/**
+ *
+ * Luokka tarjoaa käyttäjälle käyttöliittymän osakkeen ostamiseen.
+ * HUOM: Ostamalla valmiiksi omistettu osake, sen arvo ja alkuarvo päivittyy, 
+ * mutta esimerkiksi toimialaa ja riskitietoja osakkeen ostaminen ei muuta.
+ *
+ * @author gexgex
+ */
 public class OstaOsakeGUI extends javax.swing.JFrame {
 
     OsakesalkkuGUI vanhempi;
@@ -264,10 +269,19 @@ public class OstaOsakeGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_perusteollisuusActionPerformed
 
     private void tallennaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tallennaButtonActionPerformed
-        // TODO add your handling code here:
+        if (nimi.getText().isEmpty() || hinta.getText().isEmpty() || maara.getText().isEmpty() || beta.getText().isEmpty() || volatiliteetti.getText().isEmpty()) {
+            tietoPuuttuu();
+            return;
+        }
+
+        if (!onNumeerinen(hinta.getText()) || !onKokonaisluku(maara.getText()) || !onNumeerinen(beta.getText()) || !onNumeerinen(volatiliteetti.getText())) {
+            tietoVaarassaMuodossa();
+            return;
+        }
+
         String nimi = this.nimi.getText();
         String hintaTxt = this.hinta.getText();
-        int hinta = Integer.parseInt(hintaTxt);
+        double hinta = Double.parseDouble(hintaTxt);
         String maaraTxt = this.maara.getText();
         int maara = Integer.parseInt(maaraTxt);
 
@@ -276,27 +290,37 @@ public class OstaOsakeGUI extends javax.swing.JFrame {
         String volaTxt = this.volatiliteetti.getText();
         double volatiliteetti = Double.parseDouble(volaTxt);
         Osake osake = new Osake(nimi, hinta, maara);
-        Riski riski = new Riski(osake, beta, volatiliteetti);
+        Riski riski = new Riski(beta, volatiliteetti);
         Toimiala toimiala = valittuToimiala();
+
+        if (toimiala == null) {
+            tietoPuuttuu();
+            return;
+        }
+
         osake.setToimiala(toimiala);
         vanhempi.ostaOsake(osake, riski);
-        
+
         super.dispose();
     }//GEN-LAST:event_tallennaButtonActionPerformed
 
     private Toimiala valittuToimiala() {
         Enumeration<AbstractButton> nappulat = Toimialat.getElements();
         JRadioButton valittuNappi = null;
-        
-        while(nappulat.hasMoreElements()) {
+
+        while (nappulat.hasMoreElements()) {
             valittuNappi = (JRadioButton) nappulat.nextElement();
             if (valittuNappi.isSelected()) {
                 break;
             }
+            if (!nappulat.hasMoreElements()) {
+
+                return null; //tästä myös virheilmoitus!!
+            }
         }
         String toimialanNimi = valittuNappi.getText().toUpperCase();
         Toimiala toimiala = Toimiala.merkkijonoToimialaksi(toimialanNimi);
-        
+
         return toimiala;
     }
 
@@ -323,6 +347,34 @@ public class OstaOsakeGUI extends javax.swing.JFrame {
         beta.setText("");
         volatiliteetti.setText("");
     }//GEN-LAST:event_tyhjennaJButtonActionPerformed
+
+    private void tietoPuuttuu() {
+        TietoPuuttuuGUI huom = new TietoPuuttuuGUI();
+        huom.setVisible(true);
+    }
+
+    private void tietoVaarassaMuodossa() {
+        VaaraMuotoGUI huom = new VaaraMuotoGUI();
+        huom.setVisible(true);
+    }
+
+    private boolean onNumeerinen(String str) {
+        try {
+            double d = Double.parseDouble(str);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean onKokonaisluku(String str) {
+        try {
+            int d = Integer.parseInt(str);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

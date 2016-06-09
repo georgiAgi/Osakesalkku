@@ -44,9 +44,9 @@ public class RiskiTest {
         b.setToimiala(Toimiala.TEKNOLOGIA);
         c.setToimiala(Toimiala.RAHOITUS);
 
-        a.setRiski(new Riski(a, 1.2, 0.3));
-        b.setRiski(new Riski(b, 0.5, 0.2));
-        c.setRiski(new Riski(c, 0.7, 0.24));
+        a.setRiski(new Riski(1.2, 0.3));
+        b.setRiski(new Riski(0.5, 0.2));
+        c.setRiski(new Riski(0.7, 0.24));
 
         a.setHinta(5);
 
@@ -70,7 +70,7 @@ public class RiskiTest {
 
     @Test
     public void asettaaSalkunRiskinOikein() {
-        Riski salkunRiski = new Riski(salkku, laskuri.salkunBeta(), laskuri.salkunVolatiliteetti());
+        Riski salkunRiski = new Riski(laskuri.salkunBeta(), laskuri.salkunVolatiliteetti());
         salkku.setRiski(salkunRiski);
         
         assertEquals(salkku.getRiski().getVolatiliteetti(), 0.21, 0.02);

@@ -17,22 +17,22 @@ import static org.junit.Assert.*;
  * @author gexgex
  */
 public class ToimialaTest {
-    
+
     public ToimialaTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -40,6 +40,15 @@ public class ToimialaTest {
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
-    // @Test
-    // public void hello() {}
+    @Test
+    public void toimialaLoytyyMerkkijononPerusteella() {
+        Toimiala vastaus = Toimiala.merkkijonoToimialaksi("RAHOITUS");
+        assertEquals(Toimiala.RAHOITUS, vastaus);
+    }
+
+    @Test
+    public void tuntematonToimialaEiLoydy() {
+        Toimiala vastaus = Toimiala.merkkijonoToimialaksi("Sähkötekniikka");
+        assertEquals(null, vastaus);
+    }
 }

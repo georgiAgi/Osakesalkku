@@ -35,9 +35,9 @@ public class LaskuriTest {
         b.setToimiala(Toimiala.TEKNOLOGIA);
         c.setToimiala(Toimiala.RAHOITUS);
 
-        a.setRiski(new Riski(a, 1.2, 0.3));
-        b.setRiski(new Riski(b, 0.5, 0.2));
-        c.setRiski(new Riski(c, 0.7, 0.24));
+        a.setRiski(new Riski(1.2, 0.3));
+        b.setRiski(new Riski(0.5, 0.2));
+        c.setRiski(new Riski(0.7, 0.24));
 
         a.setHinta(5);
 
@@ -61,23 +61,23 @@ public class LaskuriTest {
 
     @Test
     public void salkunArvonMuutosOnOikein() {
-        int vastaus = laskuri.salkunArvonMuutos();
+        double vastaus = laskuri.salkunArvonMuutos();
         
-        assertEquals(4000, vastaus);
+        assertEquals(4000, vastaus, 0.02);
     }
     
     @Test
     public void salkunArvonKasvuprosenttiOnOikein() {
-        int vastaus = laskuri.salkunArvonKasvuprosentti();
+        double vastaus = laskuri.salkunArvonKasvuprosentti();
 
-        assertEquals(23, vastaus);
+        assertEquals(23.53, vastaus, 0.02);
     }
     
     @Test
     public void osakkeenArvonKasvuprosenttiOnOikein() {
-        int vastaus = laskuri.osakkeenArvonKasvuprosentti(osakkeet.get(0));
+        double vastaus = laskuri.osakkeenArvonKasvuprosentti(osakkeet.get(0));
 
-        assertEquals(400, vastaus);
+        assertEquals(400, vastaus, 0.02);
     }
     
     @Test
