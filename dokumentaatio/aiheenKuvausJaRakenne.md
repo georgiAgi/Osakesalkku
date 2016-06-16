@@ -14,3 +14,8 @@ Ohjelma myös pystyy tallentamaan osakesalkun ja avaamaan tallennetun tiedoston.
 * osakkeiden tietojen muokkaaminen
 * salkun riskin tarkastelu
 * salkun tallentaminen/avaaminen
+
+![luokkakaavio](dokumentaatio/OsakesalkkuLuokkakaavio.png "Luokkakaavio")
+
+![sekvenssiAloitus](dokumentaatio/SekvenssiAloitus.png "Sekvenssikaavio aloituksesta")
+![sekvenssiOsto](dokumentaatio/SekvenssiOsto.png "Sekvenssikaavio ostosta")
