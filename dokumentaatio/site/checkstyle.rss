@@ -25,8 +25,8 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2016</copyright>
     <item>
-      <title>File: 12,
-             Errors: 0,
+      <title>File: 18,
+             Errors: 3,
              Warnings: 0,
              Infos: 0
       </title>
@@ -46,7 +46,119 @@ under the License.
           <tbody>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#liittyma.OstaOsakeGUI.java">liittyma/OstaOsakeGUI.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#tiedostonkasittely.TiedostoonKirjoittaja.java">tiedostonkasittely/TiedostoonKirjoittaja.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#liittyma.OsakesalkkuGUI.java">liittyma/OsakesalkkuGUI.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#liittyma.AloitusGUI.java">liittyma/AloitusGUI.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#liittyma.TallennaGUI.java">liittyma/TallennaGUI.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#liittyma.TietoPuuttuuGUI.java">liittyma/TietoPuuttuuGUI.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#liittyma.VaaraMuotoGUI.java">liittyma/VaaraMuotoGUI.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#logiikka.Salkku.java">logiikka/Salkku.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#liittyma.VarmistusUudestaSalkustaGUI.java">liittyma/VarmistusUudestaSalkustaGUI.java</a>
                 </td>
                 <td>
                   0
@@ -74,20 +186,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#liittyma.OstaOsakeGUI.java">liittyma/OstaOsakeGUI.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#logiikka.Osake.java">logiikka/Osake.java</a>
                 </td>
                 <td>
@@ -102,7 +200,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#liittyma.TietoVaarassaMuodossaGUI.java">liittyma/TietoVaarassaMuodossaGUI.java</a>
+                  <a href="${project.url}/checkstyle.html#tiedostonkasittely.TiedostonLukija.java">tiedostonkasittely/TiedostonLukija.java</a>
                 </td>
                 <td>
                   0
@@ -111,12 +209,12 @@ under the License.
                   0
                 </td>
                 <td>
-                  0
+                  1
                 </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#liittyma.OsakesalkkuGUI.java">liittyma/OsakesalkkuGUI.java</a>
+                  <a href="${project.url}/checkstyle.html#liittyma.VarmistaLopetusGUI.java">liittyma/VarmistaLopetusGUI.java</a>
                 </td>
                 <td>
                   0
@@ -173,20 +271,6 @@ under the License.
                           <tr>
                 <td>
                   <a href="${project.url}/checkstyle.html#logiikka.Riski.java">logiikka/Riski.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#liittyma.TietoPuuttuuGUI.java">liittyma/TietoPuuttuuGUI.java</a>
                 </td>
                 <td>
                   0

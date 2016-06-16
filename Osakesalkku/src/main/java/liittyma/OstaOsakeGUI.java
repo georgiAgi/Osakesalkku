@@ -1,7 +1,5 @@
 package liittyma;
 
-import java.text.NumberFormat;
-import java.text.ParsePosition;
 import java.util.Enumeration;
 import javax.swing.AbstractButton;
 import javax.swing.JRadioButton;
@@ -274,7 +272,7 @@ public class OstaOsakeGUI extends javax.swing.JFrame {
             return;
         }
 
-        if (!onNumeerinen(hinta.getText()) || !onKokonaisluku(maara.getText()) || !onNumeerinen(beta.getText()) || !onNumeerinen(volatiliteetti.getText())) {
+        if (!onNumeerinenJaPositiivinen(hinta.getText()) || !onPositiivinenKokonaisluku(maara.getText()) || !onNumeerinenJaPositiivinen(beta.getText()) || !onNumeerinenJaPositiivinen(volatiliteetti.getText())) {
             tietoVaarassaMuodossa();
             return;
         }
@@ -358,18 +356,24 @@ public class OstaOsakeGUI extends javax.swing.JFrame {
         huom.setVisible(true);
     }
 
-    private boolean onNumeerinen(String str) {
+    private boolean onNumeerinenJaPositiivinen(String str) {
         try {
             double d = Double.parseDouble(str);
+            if (d < 0) {
+                return false;
+            }
         } catch (NumberFormatException nfe) {
             return false;
         }
         return true;
     }
     
-    private boolean onKokonaisluku(String str) {
+    private boolean onPositiivinenKokonaisluku(String str) {
         try {
             int d = Integer.parseInt(str);
+            if (d < 0) {
+                return false;
+            }
         } catch (NumberFormatException nfe) {
             return false;
         }

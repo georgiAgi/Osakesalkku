@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package liittyma;
 
 import java.text.DecimalFormat;
-import java.util.HashSet;
 import javax.swing.DefaultComboBoxModel;
 import logiikka.Osake;
 import logiikka.Toimiala;
@@ -323,6 +317,9 @@ public class MuutaTietojaGUI extends javax.swing.JFrame {
         super.dispose();
     }//GEN-LAST:event_paluuButtonActionPerformed
 
+    /**
+     * Metodi asettaa osakkeen tiedot käyttäjän nähtäville.
+     */
     public void asetaTiedot() {
         nimiLabel.setText("Muuta osakkeen " + osake.getNimi() + " tietoja");
         nykNimiLabel.setText(osake.getNimi());

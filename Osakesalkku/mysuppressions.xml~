@@ -8,4 +8,8 @@
     <suppress files="MyyOsakeGUI.java" checks="[a-zA-Z0-9]*"/>
     <suppress files="OsakesalkkuGUI.java" checks="[a-zA-Z0-9]*"/>
     <suppress files="OstaOsakeGUI.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="MuutaTietojaGUI.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="MyyntiOnnistuiGUI.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="TietoPuuttuuGUI.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="TietoVaarassaMuodossaGUI.java" checks="[a-zA-Z0-9]*"/>
 </suppressions>

@@ -1,14 +1,18 @@
 package liittyma;
 
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import logiikka.*;
+import tiedostonkasittely.TiedostoonKirjoittaja;
 
 /**
  *
- * Luokka tarjoaa käyttäjälle käyttöliittymän osakesalkun käyttämiseen sekä 
+ * Luokka tarjoaa käyttäjälle käyttöliittymän osakesalkun käyttämiseen sekä
  * eräiden tunnuslukujen tarkasteluun.
  *
  * @author gexgex
@@ -24,6 +28,18 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
         df3 = new DecimalFormat("0.000");
         df2 = new DecimalFormat("0.00");
         df1 = new DecimalFormat("0.0");
+    }
+
+    public OsakesalkkuGUI(Salkku salkku) {
+        initComponents();
+        this.salkku = salkku;
+        laskuri = new Laskuri(salkku);
+        listModel = new DefaultListModel();
+        osakkeetList.setFixedCellWidth(250);
+        df3 = new DecimalFormat("0.000");
+        df2 = new DecimalFormat("0.00");
+        df1 = new DecimalFormat("0.0");
+        paivitaLista();
     }
 
     /**
@@ -45,7 +61,7 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
         ostaButton = new javax.swing.JButton();
         myyButton = new javax.swing.JButton();
         paivitaButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        salkunNimiLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         osakkeetList = new javax.swing.JList<>();
         osakeLabel = new javax.swing.JLabel();
@@ -68,6 +84,8 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
         nimi = new javax.swing.JLabel();
         lopetaButton = new javax.swing.JButton();
         muutaButton = new javax.swing.JButton();
+        tallennaButton = new javax.swing.JButton();
+        vaihdaSalkkuButton = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -126,11 +144,22 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Osakkeet");
+        salkunNimiLabel.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        salkunNimiLabel.setText("Osakkeet");
 
         osakkeetList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 osakkeetListMouseClicked(evt);
+            }
+        });
+        osakkeetList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                osakkeetListKeyPressed(evt);
+            }
+        });
+        osakkeetList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                osakkeetListValueChanged(evt);
             }
         });
         jScrollPane2.setViewportView(osakkeetList);
@@ -186,6 +215,20 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
             }
         });
 
+        tallennaButton.setText("Tallenna");
+        tallennaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tallennaButtonActionPerformed(evt);
+            }
+        });
+
+        vaihdaSalkkuButton.setText("Vaihda salkkua");
+        vaihdaSalkkuButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vaihdaSalkkuButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -196,14 +239,15 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(salkunNimiLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(vaihdaSalkkuButton))
                             .addComponent(jScrollPane2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(ostaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(myyButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(paivitaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(paivitaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(59, 59, 59))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,16 +274,20 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(muutaButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lopetaButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(tallennaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(lopetaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(3, 3, 3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(salkunNimiLabel)
+                    .addComponent(vaihdaSalkkuButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(ostaButton)
@@ -287,7 +335,8 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(muutaButton)
-                    .addComponent(lopetaButton))
+                    .addComponent(lopetaButton)
+                    .addComponent(tallennaButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -328,21 +377,12 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
             osake = salkku.osakeNimenPerusteella(osakkeenNimi);
         }
 
-        nimi.setText(osake.getNimi());
-        maara.setText(String.valueOf(osake.getMaara()));
-        arvo.setText(String.valueOf(df3.format(osake.getHinta())) + " €");
-        alkuarvo.setText(String.valueOf(df3.format(osake.getAlkuArvo())) + " €");
-        muutosEur.setText(String.valueOf(df2.format(laskuri.osakkeenArvonMuutos(osake))) + " €");
-        muutosPrs.setText(String.valueOf(df1.format(laskuri.osakkeenArvonKasvuprosentti(osake))) + " %");
-        beta.setText(String.valueOf(df2.format(osake.getRiski().getBeta())));
-        volatiliteetti.setText(String.valueOf(df2.format(osake.getRiski().getVolatiliteetti())));
-        toimiala.setText(osake.getToimiala().toString());
-
-        muutaButton.setEnabled(true);
+        paivitaOsake();
     }//GEN-LAST:event_osakkeetListMouseClicked
 
     private void lopetaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lopetaButtonActionPerformed
-        super.dispose();
+        VarmistaLopetusGUI varmista = new VarmistaLopetusGUI(this);
+        varmista.setVisible(true);
     }//GEN-LAST:event_lopetaButtonActionPerformed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
@@ -354,6 +394,70 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
         muutaTietoja.asetaTiedot();
         muutaTietoja.setVisible(true);
     }//GEN-LAST:event_muutaButtonActionPerformed
+
+    private void tallennaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tallennaButtonActionPerformed
+        if (tiedosto != null) {
+            tallennaUusi();
+        } else {
+            TallennaGUI tallenna = new TallennaGUI(this);
+            tallenna.setVisible(true);
+        }
+    }//GEN-LAST:event_tallennaButtonActionPerformed
+
+    private void osakkeetListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_osakkeetListValueChanged
+
+    }//GEN-LAST:event_osakkeetListValueChanged
+
+    private void vaihdaSalkkuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vaihdaSalkkuButtonActionPerformed
+        VarmistusUudestaSalkustaGUI varmistus = new VarmistusUudestaSalkustaGUI(this);
+        varmistus.setVisible(true);
+    }//GEN-LAST:event_vaihdaSalkkuButtonActionPerformed
+
+    private void osakkeetListKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_osakkeetListKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_DOWN && osakkeetList.getSelectedIndex() == listModel.getSize() - 1) {
+            evt.consume();
+            osakkeetList.setSelectedIndex(0);
+        } else if (evt.getKeyCode() == KeyEvent.VK_UP && osakkeetList.getSelectedIndex() == 0) {
+            evt.consume();
+            osakkeetList.setSelectedIndex(listModel.getSize() - 1);
+        } else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            evt.consume();
+            osakkeetList.setSelectedIndex(osakkeetList.getSelectedIndex() + 1);
+        } else if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            evt.consume();
+            osakkeetList.setSelectedIndex(osakkeetList.getSelectedIndex() - 1);
+        }
+        
+        Object o = listModel.getElementAt(osakkeetList.getSelectedIndex());
+        String osakkeenNimi = o.toString();
+        osake = salkku.osakeNimenPerusteella(osakkeenNimi);
+        paivitaOsake();
+    }//GEN-LAST:event_osakkeetListKeyPressed
+
+    /**
+     *
+     * Metodi avaa uuden aloitusikkunan ja sulkee nykyisen osakesalkun.
+     */
+    public void vaihdaSalkku() {
+        AloitusGUI aloitus = new AloitusGUI();
+        aloitus.setVisible(true);
+        super.dispose();
+    }
+
+    /**
+     *
+     * Metodi luo tiedostonkirjoittajan, joka kirjoittaa nykyisen salkun 
+     * tiedostoon.
+     */
+    public void tallennaUusi() {
+        TiedostoonKirjoittaja tKirjoittaja = new TiedostoonKirjoittaja(salkku);
+        try {
+            tKirjoittaja.save(salkunNimiLabel.getText());
+        } catch (IOException ex) {
+            Logger.getLogger(OsakesalkkuGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tiedosto = tKirjoittaja.getTiedosto();
+    }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -387,17 +491,31 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
         });
     }
 
+    /**
+     *
+     * Metodi lisää osakkeen salkkuun. Se myös kutsuu listanpäivityksen 
+     * automaattisesti.
+     */
     public void ostaOsake(Osake osake, Riski riski) {
         osake.setRiski(riski);
         salkku.lisaaOsake(osake);
         paivitaLista();
     }
 
+    /**
+     *
+     * Metodi myy osaketta salkusta. Se myös kutsuu listanpäivityksen 
+     * automaattisesti.
+     */
     public void myyOsake(Osake osake) {
         salkku.vaihdaOsaketta(osake);
         paivitaLista();
     }
 
+    /**
+     *
+     * Metodi päivittää käyttöliittymässä näkyvät tiedot.
+     */
     public void paivitaLista() {
         osakkeetList.setModel(listModel);
         listModel.clear();
@@ -405,6 +523,20 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
             listModel.addElement(o.getNimi());
         }
         paivitaSalkku();
+    }
+
+    private void paivitaOsake() {
+        nimi.setText(osake.getNimi());
+        maara.setText(String.valueOf(osake.getMaara()));
+        arvo.setText(String.valueOf(df3.format(osake.getHinta())) + " €");
+        alkuarvo.setText(String.valueOf(df3.format(osake.getAlkuArvo())) + " €");
+        muutosEur.setText(String.valueOf(df2.format(laskuri.osakkeenArvonmuutos(osake))) + " €");
+        muutosPrs.setText(String.valueOf(df1.format(laskuri.osakkeenArvonKasvuprosentti(osake))) + " %");
+        beta.setText(String.valueOf(df2.format(osake.getRiski().getBeta())));
+        volatiliteetti.setText(String.valueOf(df2.format(osake.getRiski().getVolatiliteetti())));
+        toimiala.setText(osake.getToimiala().toString());
+
+        muutaButton.setEnabled(true);
     }
 
     private void paivitaSalkku() {
@@ -426,7 +558,7 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
             maara.setText(salkku.getOsakkeet().size() + " yritystä");
             arvo.setText(String.valueOf(df2.format(salkku.arvo())) + " €");
             alkuarvo.setText(String.valueOf(df2.format(salkku.alkuArvo())) + " €");
-            muutosEur.setText(String.valueOf(df2.format(laskuri.salkunArvonMuutos())) + " €");
+            muutosEur.setText(String.valueOf(df2.format(laskuri.salkunArvonmuutos())) + " €");
             muutosPrs.setText(String.valueOf(df1.format(laskuri.salkunArvonKasvuprosentti())) + " %");
             beta.setText(String.valueOf(df3.format(salkku.getRiski().getBeta())));
             volatiliteetti.setText(String.valueOf(df3.format(salkku.getRiski().getVolatiliteetti())));
@@ -445,7 +577,6 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -465,8 +596,11 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
     public javax.swing.JList<String> osakkeetList;
     private javax.swing.JButton ostaButton;
     private javax.swing.JButton paivitaButton;
+    private javax.swing.JLabel salkunNimiLabel;
+    private javax.swing.JButton tallennaButton;
     private javax.swing.JLabel toimiala;
     private javax.swing.JLabel toimialaLabel;
+    private javax.swing.JButton vaihdaSalkkuButton;
     private javax.swing.JLabel volaLabel;
     private javax.swing.JLabel volatiliteetti;
     // End of variables declaration//GEN-END:variables
@@ -477,6 +611,7 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
     private DecimalFormat df2;
     private DecimalFormat df1;
     public DefaultListModel listModel;
+    private File tiedosto;
 
     public static Salkku getSalkku() {
         return salkku;
@@ -488,5 +623,13 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
 
     public void setOsake(Osake osake) {
         this.osake = osake;
+    }
+
+    public void setSalkunNimiLabel(String nimi) {
+        this.salkunNimiLabel.setText(nimi);
+    }
+
+    public void setTiedosto(File f) {
+        tiedosto = f;
     }
 }

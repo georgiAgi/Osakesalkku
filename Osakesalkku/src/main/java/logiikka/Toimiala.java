@@ -3,6 +3,9 @@ package logiikka;
  * Enum-luokka sisältää käytettävissä olevat toimialat, sekä näihin liittyvät 
  * korrelaatiot markkinan kanssa.
  * 
+ * HUOM: 24.5. laskettu toimialan beta-lukujen keskiarvo, joka kuvastaa tässä
+ * toimialariskiä.
+ * 
  * @author gexgex
  */
 public enum Toimiala {
@@ -16,7 +19,7 @@ public enum Toimiala {
     TEKNOLOGIA(0.62473684),
     ENERGIA(0.975);
     
-    private Double korrelaatioMarkkinanKanssa; //24.5. laskettu toimialan beta-lukujen keskiarvo, kuvastaa tässä toimialariskiä
+    private Double korrelaatioMarkkinanKanssa;
     
     private Toimiala(Double korrelaatio) {
         this.korrelaatioMarkkinanKanssa = korrelaatio;
@@ -29,7 +32,9 @@ public enum Toimiala {
     /**
      * Metodi palauttaa toimialan parametrina olevan nimen perusteella.
      *
-     * @param mekkijono Käyttäjän syöttämä toimialan nimi ISOIN kirjaimin
+     * @param merkkijono Käyttäjän syöttämä toimialan nimi ISOIN kirjaimin
+     * 
+     * @return toimiala jos sellainen merkkijonon perusteella löytyy
      */
     public static Toimiala merkkijonoToimialaksi(String merkkijono) {
         for (Toimiala t : Toimiala.values()) {
@@ -42,7 +47,7 @@ public enum Toimiala {
 
     /**
      * Metodi palauttaa toimialan nimen isolla alkukirjaimella kirjoitettuna 
-     * String-tyyppisenä oliona..
+     * String-tyyppisenä oliona.
      */
     @Override
     public String toString() {

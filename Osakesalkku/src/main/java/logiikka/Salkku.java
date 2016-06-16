@@ -3,22 +3,30 @@ package logiikka;
 import java.util.*;
 
 /**
- * Luokka toimii osakesalkkuna sisältäen listan osakkeistaan.
- * Sen metodit palauttavat joitain salkkuun liittyviä tunnuslukuja.
- * 
+ * Luokka toimii osakesalkkuna sisältäen listan osakkeistaan. Sen metodit
+ * palauttavat joitain salkkuun liittyviä tunnuslukuja.
+ *
  * @author gexgex
  */
 public class Salkku {
+
     private Riski riski;
     private List<Osake> osakkeet;
-    
+
+    /**
+     * Konstruktori luo uuden Salkku-olion ja tälle tyhjän ArrayListin osakkeita
+     * varten.
+     * 
+     */
     public Salkku() {
         osakkeet = new ArrayList();
     }
 
     /**
-     * Metodi palauttaa osakesalkun arvon perustuen osakkeiden määrään ja 
+     * Metodi palauttaa osakesalkun arvon perustuen osakkeiden määrään ja
      * hintoihin.
+     *
+     * @return liukulukumuotoinen salkun arvo
      */
     public double arvo() {
         double arvo = 0;
@@ -28,36 +36,13 @@ public class Salkku {
         return arvo;
     }
 
-//    @Override
-//    public int hashCode() {
-//        int hash = 7;
-//        hash = 71 * hash + Objects.hashCode(this.osakkeet);
-//        return hash;
-//    }
-
-//    @Override
-//    public boolean equals(Object obj) {
-//        if (this == obj) {
-//            return true;
-//        }
-//        if (obj == null) {
-//            return false;
-//        }
-//        if (getClass() != obj.getClass()) {
-//            return false;
-//        }
-//        final Salkku other = (Salkku) obj;
-//        if (!Objects.equals(this.osakkeet, other.osakkeet)) {
-//            return false;
-//        }
-//        return true;
-//    }
-    
     /**
-     * Metodi palauttaa salkusta osakkeen parametrina olevan osakkeen nimen 
+     * Metodi palauttaa salkusta osakkeen parametrina olevan osakkeen nimen
      * perusteella. Jos osaketta ei ole, metodi palauttaa null.
      *
      * @param nimi Käyttäjän hakeman osakkeen nimi
+     *
+     * @return osake, jonka nimi vastaa haettua
      */
     public Osake osakeNimenPerusteella(String nimi) {
         for (Osake o : osakkeet) {
@@ -75,7 +60,7 @@ public class Salkku {
     /**
      * Metodi lisää parametrina syötetyn osakkeen salkkuun. Se ensin tarkistaa,
      * ettei osakkeen hinta ole negatiivinen ja ettei salkussa ole jo samaa
-     * osaketta. Jos on, se kutsuu vaihdaOsaketta() metodia, jolloin osaketta 
+     * osaketta. Jos on, se kutsuu vaihdaOsaketta() metodia, jolloin osaketta
      * ostetaan salkkuun lisää.
      *
      * @param osake Salkkuun lisättävä osake
@@ -85,49 +70,37 @@ public class Salkku {
             return;
         }
         if (osakkeet.contains(osake)) {
-            vaihdaOsaketta(osake); //ostaa osaketta, jos se omistetaan jo
+            vaihdaOsaketta(osake);
             return;
         }
         osakkeet.add(osake);
     }
-    
-    public void vaihdaOsaketta(Osake osake) { //osto ja myynti, turha eriyttää kahdeksi lähes identtiseksi metodiksi
-        if (!osakkeet.contains(osake)) {
-            lisaaOsake(osake); //lisää osakkeen salkkuun eli ostaa sitä ensimmäisen kerran
+
+    /**
+     * Metodi vaihtaa osaketta, eli muuttaa osakkeiden määrän ja arvon. Jos
+     * osaketta ostetaan lisää se muuttaa sen alkuarvon kutsumalla Osake-luokan
+     * uusiAlkuArvo()-metodia. Jos osakkeen määrä muuttuu nollaksi, se poistaa
+     * osakkeen salkusta kutsumalla poistaOsake()-metodia.
+     *
+     * @param osake Vaihdettava osake
+     */
+    public void vaihdaOsaketta(Osake osake) {
+        Osake o = osakeNimenPerusteella(osake.getNimi());
+
+        if (osake.getMaara() > 0) {
+            o.uusiAlkuArvo(osake);
+        } else if (osake.getMaara() + o.getMaara() == 0) {
+            poistaOsake(o);
             return;
         }
-        double arvo = osake.getHinta();
-        if (arvo < 0) {
-            return; //hinta ei voi olla negatiivinen. Tästä täytyisi varmaan vielä tehdä virheilmoitus
-        }
-        for (Osake o : osakkeet) {
-            if (o.equals(osake)) {
-                int maara = o.getMaara();
-                
-                if (osake.getMaara() + maara < 0) {
-                    return; //toistaiseksi ainakaan osakkeita ei voi shortata, eli osakkeiden määrä ei voi painua negatiiviseksi
-                }
-                
-                if (osake.getMaara() > 0) { //ostettaessa lisää, muutetaan alkuarvoa
-                    o.uusiAlkuArvo(osake);
-                }
-                
-                maara += osake.getMaara();
-                if (maara == 0) {
-                    poistaOsake(o); //poistaa osakkeen salkusta, jos loputkin myydään pois
-                    return;
-                }
-                
-                o.setMaara(maara);
-                o.setHinta(arvo);
-//                o.setToimiala(osake.getToimiala());
-//                o.setRiski(osake.getRiski());
-            }
-        }
+        o.setMaara(osake.getMaara() + o.getMaara());
+        o.setHinta(osake.getHinta());
     }
-    
+
     /**
      * Metodi palauttaa salkussa olevien osakkeiden eri toimialojen lukumäärän.
+     *
+     * @return kokonaisluku, joka vastaa salkun toimialojen lukumäärää
      */
     public int toimialojenLkm() {
         HashSet<Toimiala> toimialat = new HashSet();
@@ -144,12 +117,12 @@ public class Salkku {
     public void setRiski(Riski riski) {
         this.riski = riski;
     }
-    
+
     /**
      * Metodi poistaa osakkeen salkusta.
      *
      * @param osake Poistettava osake
-     */    
+     */
     public void poistaOsake(Osake osake) {
         for (int i = 0; i < osakkeet.size(); i++) {
             if (osakkeet.get(i).equals(osake)) {
@@ -157,10 +130,13 @@ public class Salkku {
             }
         }
     }
-    
+
     /**
-     * Metodi palauttaa salkun alkuarvon eli osakkeiden keskimääräiseen 
+     * Metodi palauttaa salkun alkuarvon eli osakkeiden keskimääräiseen
      * hankintahintaan perustuvan kokonaisarvon.
+     *
+     * @return liukulukumuotoinen alkuarvo perustuen osakkeiden
+     * hankintahintoihin
      */
     public double alkuArvo() {
         double alkuArvo = 0;
@@ -169,5 +145,5 @@ public class Salkku {
         }
         return alkuArvo;
     }
-    
+
 }

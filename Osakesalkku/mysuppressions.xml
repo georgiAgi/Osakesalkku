@@ -11,5 +11,9 @@
     <suppress files="MuutaTietojaGUI.java" checks="[a-zA-Z0-9]*"/>
     <suppress files="MyyntiOnnistuiGUI.java" checks="[a-zA-Z0-9]*"/>
     <suppress files="TietoPuuttuuGUI.java" checks="[a-zA-Z0-9]*"/>
-    <suppress files="TietoVaarassaMuodossaGUI.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="VaaraMuotoGUI.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="AloitusGUI.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="TallennaGUI.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="VarmistaLopetusGUI.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="VarmistusUudestaSalkustaGUI.java" checks="[a-zA-Z0-9]*"/>
 </suppressions>

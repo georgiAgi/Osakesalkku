@@ -6,6 +6,7 @@
 package logiikka;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -60,8 +61,11 @@ public class RiskiTest {
         for (Osake o : osakkeet) {
             salkku.lisaaOsake(o);
         }
-        
+
         this.laskuri = new Laskuri(salkku);
+
+        Riski salkunRiski = new Riski(laskuri.salkunBeta(), laskuri.salkunVolatiliteetti());
+        salkku.setRiski(salkunRiski);
     }
 
     @After
@@ -70,10 +74,23 @@ public class RiskiTest {
 
     @Test
     public void asettaaSalkunRiskinOikein() {
-        Riski salkunRiski = new Riski(laskuri.salkunBeta(), laskuri.salkunVolatiliteetti());
-        salkku.setRiski(salkunRiski);
-        
         assertEquals(salkku.getRiski().getVolatiliteetti(), 0.21, 0.02);
         assertEquals(salkku.getRiski().getBeta(), 0.76, 0.02);
+    }
+
+    @Test
+    public void muuttaaBetanJaVolanOikein() {
+        salkku.getRiski().setBeta(0.5);
+        salkku.getRiski().setVolatiliteetti(0.4);
+
+        assertEquals(salkku.getRiski().getVolatiliteetti(), 0.4, 0.02);
+        assertEquals(salkku.getRiski().getBeta(), 0.5, 0.02);
+    }
+
+    @Test
+    public void negatiivistaVolatiliteettiaEiVoiAsettaa() {
+        salkku.getRiski().setVolatiliteetti(-0.4);
+
+        assertEquals(salkku.getRiski().getVolatiliteetti(), 0.21, 0.02);
     }
 }

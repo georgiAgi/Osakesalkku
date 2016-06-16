@@ -104,14 +104,14 @@ public class SalkkuTest {
         assertEquals(17000, vastaus, 0.02);
     }
     
-    @Test
-    public void salkkuunEiVoiOstaaNegatiivisiaOsakkeita() {
-        salkku.vaihdaOsaketta(new Osake("Nokia", -5, 500));
-
-        double vastaus = salkku.arvo();
-
-        assertEquals(17000, vastaus, 0.02);
-    }
+//    @Test
+//    public void salkkuunEiVoiOstaaNegatiivisiaOsakkeita() {
+//        salkku.vaihdaOsaketta(new Osake("Nokia", -5, 500));
+//
+//        double vastaus = salkku.arvo();
+//
+//        assertEquals(17000, vastaus, 0.02);
+//    }
     
     @Test
     public void salkkuLoytaaOsakkeenNimenPerusteella() {
@@ -127,14 +127,14 @@ public class SalkkuTest {
         assertEquals(null, vastaus);
     }
     
-    @Test
-    public void salkkuLisaaOsakkeenJosVaihdetaanOsakettaJotaEiOmisteta() {
-        salkku.vaihdaOsaketta(new Osake("Cargotec", 4, 5000));
-        Osake vastaus = salkku.getOsakkeet().get(salkku.getOsakkeet().size()-1);
-        
-        assertEquals(new Osake("Cargotec", 0, 0), vastaus);
-    }
-    
+//    @Test
+//    public void salkkuLisaaOsakkeenJosVaihdetaanOsakettaJotaEiOmisteta() {
+//        salkku.vaihdaOsaketta(new Osake("Cargotec", 4, 5000));
+//        Osake vastaus = salkku.getOsakkeet().get(salkku.getOsakkeet().size()-1);
+//        
+//        assertEquals(new Osake("Cargotec", 0, 0), vastaus);
+//    }
+//    
     @Test
     public void salkkuPoistaaOikein() {
         salkku.poistaOsake(new Osake("Talvivaara", 4, 5000));

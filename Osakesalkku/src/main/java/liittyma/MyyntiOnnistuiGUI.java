@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package liittyma;
 
 import java.text.DecimalFormat;
@@ -100,6 +95,11 @@ public class MyyntiOnnistuiGUI extends javax.swing.JFrame {
         super.dispose();
     }//GEN-LAST:event_reaktioButtonActionPerformed
 
+    /**
+     *
+     * Metodi asettaa ikkunan tiedot myyntitapahtuman perusteella.
+     *
+     */
     public void ilmoitus() {
         osakeLabel.setText("Myit osaketta " + vanhempi.getOsake().getNimi() + " onnistuneesti!");
 

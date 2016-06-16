@@ -61,7 +61,7 @@ public class LaskuriTest {
 
     @Test
     public void salkunArvonMuutosOnOikein() {
-        double vastaus = laskuri.salkunArvonMuutos();
+        double vastaus = laskuri.salkunArvonmuutos();
         
         assertEquals(4000, vastaus, 0.02);
     }

@@ -1,0 +1,33 @@
+title Salkun avaaminen
+Käyttäjä->AloitusGUI: Valitsee .salkun
+AloitusGUI->*TiedostonLukija: viel .salkun
+loop luo osakkeet
+    TiedostonLukija->*Osake: luo osakeet
+end
+TiedostonLukija->*Salkku: Muuta salkuksi
+TiedostonLukija-->AloitusGUI: Palauta salkku
+destroy TiedostonLukija
+AloitusGUI->*OsakesalkkuGUI: Aloita osakesalkun tarkastelu
+destroy AloitusGUI
+
+
+title Osakkeen ostaminen
+Käyttäjä->OsakesalkkuGUI: Aloittaa ostamisen
+OsakesalkkuGUI->*OstaOsakettaGUI: Avaa ikkunan
+Käyttäjä->OstaOsakettaGUI: Asettaa tiedot
+
+
+alt Tieto puuttuu
+    OstaOsakettaGUI->*TietoPuuttuuGUI: Avaa
+    TietoPuuttuuGUI-->Käyttäjä: Ilmoitus
+    destroy TietoPuuttuuGUI
+else Tieto väärin
+    OstaOsakettaGUI->*VaaraMuotoGUI: Avaa
+    VaaraMuotoGUI-->Käyttäjä: Ilmoitus
+    destroy VaaraMuotoGUI
+end
+
+OstaOsakettaGUI-->OsakesalkkuGUI: Palauttaa osakkeen
+destroy OstaOsakettaGUI
+OsakesalkkuGUI->Salkku: Lisää osakkeen
+

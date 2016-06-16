@@ -1,0 +1,12 @@
+title Salkun avaaminen
+Käyttäjä->AloitusGUI: Valitsee .salkun
+AloitusGUI->*TiedostonLukija: viel .salkun
+loop luo osakkeet
+    TiedostonLukija->*Osake: luo osakeet
+end
+TiedostonLukija->*Salkku: Muuta salkuksi
+TiedostonLukija-->AloitusGUI: Palauta salkku
+destroy TiedostonLukija
+AloitusGUI->*OsakesalkkuGUI: Aloita osakesalkun tarkastelu
+destroy AloitusGUI
+

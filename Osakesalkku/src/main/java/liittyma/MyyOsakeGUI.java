@@ -1,8 +1,6 @@
 package liittyma;
 
 import java.text.DecimalFormat;
-import java.util.HashSet;
-import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import logiikka.*;
@@ -31,7 +29,7 @@ public class MyyOsakeGUI extends javax.swing.JFrame {
         df3 = new DecimalFormat("0.000");
     }
 
-    public void luoLista() {
+    private void luoLista() {
         for (Osake o : vanhempi.getSalkku().getOsakkeet()) {
             listModel.addElement(o.getNimi());
         }
@@ -87,12 +85,16 @@ public class MyyOsakeGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel1.setText("Valitse osake");
 
-        jLabel2.setText("Osakkeiden määrä tällä hetkellä");
+        jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        jLabel2.setText("Osakkeiden määrä tällä hetkellä:");
 
+        jLabel3.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel3.setText("Kuinka monta osaketta haluat myydä?");
 
+        jLabel4.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel4.setText("Osakkeen hinta: ");
 
         maaraLabel.setText("-");
@@ -113,12 +115,15 @@ public class MyyOsakeGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel6.setText("Osakkeen hinta alussa:");
 
         alkuhintaLabel.setText("-");
 
+        osakeLabel.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         osakeLabel.setText("Osake:   ");
 
+        jLabel7.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel7.setText("Myyntihinta");
 
         hintaTextField.setText("hinta");
@@ -157,29 +162,26 @@ public class MyyOsakeGUI extends javax.swing.JFrame {
                                 .addGap(149, 149, 149)
                                 .addComponent(alkuhintaLabel)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel5)
-                                    .addGap(37, 37, 37)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel3)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(37, 37, 37)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(myyKaikkiCheckBox)
-                                                .addComponent(maaraTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addComponent(jLabel7)))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(myyButton)
-                                    .addGap(45, 45, 45)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(paluuButton)
-                                    .addComponent(hintaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(139, 139, 139))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(37, 37, 37)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(myyKaikkiCheckBox)
+                                            .addComponent(maaraTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jLabel7)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(hintaTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+                                    .addComponent(paluuButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(74, 74, 74)
+                                .addComponent(myyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jLabel1))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,7 +200,7 @@ public class MyyOsakeGUI extends javax.swing.JFrame {
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(12, 12, 12)
                                 .addComponent(maaraLabel)
-                                .addGap(24, 24, 24)
+                                .addGap(18, 18, 18)
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
                                 .addComponent(hintaLabel)
@@ -209,21 +211,18 @@ public class MyyOsakeGUI extends javax.swing.JFrame {
                             .addComponent(osakeLabel)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(maaraTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(myyKaikkiCheckBox)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(hintaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(199, 199, 199)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(myyButton)
-                                            .addComponent(paluuButton)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(maaraTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(myyKaikkiCheckBox)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(hintaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(55, 55, 55)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(myyButton)
+                                    .addComponent(paluuButton)))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -270,7 +269,7 @@ public class MyyOsakeGUI extends javax.swing.JFrame {
             return;
         }
 
-        if (!onNumeerinen(hintaTextField.getText()) || !onKokonaisluku(maaraTextField.getText())) {
+        if (!onNumeerinenJaPositiivinen(hintaTextField.getText()) || !onPositiivinenKokonaislukuJaEiLiianSuuri(maaraTextField.getText())) {
             tietoVaarassaMuodossa();
             return;
         }
@@ -304,18 +303,24 @@ public class MyyOsakeGUI extends javax.swing.JFrame {
         huom.setVisible(true);
     }
 
-    private boolean onKokonaisluku(String str) {
+    private boolean onPositiivinenKokonaislukuJaEiLiianSuuri(String str) {
         try {
             int d = Integer.parseInt(str);
+            if (d < 0 || d > osake.getMaara()) {
+                return false;
+            }
         } catch (NumberFormatException nfe) {
             return false;
         }
         return true;
     }
 
-    private boolean onNumeerinen(String str) {
+    private boolean onNumeerinenJaPositiivinen(String str) {
         try {
             double d = Double.parseDouble(str);
+            if (d < 0) {
+                return false;
+            }
         } catch (NumberFormatException nfe) {
             return false;
         }

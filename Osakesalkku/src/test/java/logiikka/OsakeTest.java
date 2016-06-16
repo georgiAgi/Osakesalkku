@@ -47,7 +47,7 @@ public class OsakeTest {
     }
     
     @Test
-    public void AlkuArvoOnOikeinHinnanMuutoksenJalkeen() {
+    public void alkuArvoOnOikeinHinnanMuutoksenJalkeen() {
         osake.setHinta(100);
         double vastaus = osake.getAlkuArvo();
         
@@ -67,5 +67,14 @@ public class OsakeTest {
         double vastaus = osake.getHinta();
 
         assertEquals(1, vastaus, 0.02);
+    }
+    
+    @Test
+    public void alkuArvoOikeinKunOstettuLisaaOsaketta() {
+        Osake o = new Osake("Talvivaara", 0.01, 1000);
+        osake.uusiAlkuArvo(o);
+        double vastaus = osake.getAlkuArvo();
+        
+        assertEquals(0.5, vastaus, 0.02);
     }
 }
