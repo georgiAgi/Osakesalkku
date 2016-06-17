@@ -9,3 +9,5 @@ Päivä | Tunnit | Kuvaus
 05.06.2016 | 2h | Koodikatselmointi
 08.06.2016 | 2h | Suunnittelua ja virheilmoitusten luontia
 09.06.2016 | 6h | Käyttöliittymän huomista ja neljännen viikon dokumentaatiota
+15.06.2016 | 6h | Tiedoston kirjoitus ja lukeminen toteutettu
+16.06.2016 | 4h | Hienosäätöä ja viidennen viikon dokumentaatiota
