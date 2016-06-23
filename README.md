@@ -11,4 +11,6 @@ Osakesalkkusimulaattori ohjelmoinnin aineopintojen harjoitustyönä.
 
 [Checkstyle-raportti](https://htmlpreview.github.io/?https://github.com/georgiAgi/Osakesalkku/blob/master/dokumentaatio/site/checkstyle.html)
 
+[JavaDoc](https://htmlpreview.github.io/?https://github.com/georgiAgi/Osakesalkku/blob/master/dokumentaatio/site/apidocs/index.html)
+
 ![luokkakaavio](dokumentaatio/OsakesalkkuLuokkakaavio.png "Luokkakaavio")
