@@ -1,13 +1,33 @@
 **Aihe:** Osakesalkku 
 
-Toteutetaan järjestelmä, johon syötetään osakeostoja ja osakkeiden tietoja oston hetkellä, sekä lasketaan koko salkun arvo ja riskipitoisuus. Järjestelmässä on ainakin aluksi yksi osakesalkku, johon lisätään (käsin) osakkeita yksi kerrallaan. Lisäyksen aikana kerrotaan osakkeen arvo, osakkeiden määrä, volatiliteetti (esim. vuosittainen), beta-arvo (joka kertoo korrelaatiosta markkinan kanssa) ja valitaan osakkeen edustama toimiala. Järjestelmässä siis on valmis lista toimialoista, joista käyttäjä valitsee osakkeen toimialan.
+Toteutetaan järjestelmä, johon syötetään osakeostoja ja osakkeiden tietoja oston hetkellä, sekä lasketaan koko salkun arvo ja riskipitoisuus. Järjestelmässä on yksi osakesalkku, johon lisätään (käsin) osakkeita yksi kerrallaan. Lisäyksen aikana kerrotaan osakkeen arvo, osakkeiden määrä, volatiliteetti (esim. vuosittainen), beta-arvo (joka kertoo korrelaatiosta markkinan kanssa) ja valitaan osakkeen edustama toimiala. Järjestelmässä siis on valmis lista toimialoista, joista käyttäjä valitsee osakkeen toimialan.
 
-Oletuksena on, että ainakin alussa kaikki osakkeet ovat Helsingin pörssistä (lähinnä markkinakorrelaation vuoksi) ja koska yksittäisten osakkeiden välistä korrelaatiota ei ilman suurta dataa saa selville, käytän toimialoja suuntaa-antavana informaationa. Järjestelmä siis käytännössä laskee ja näyttää salkun sisällön, arvon ja sen muutoksen, sekä riskipitoisuuden. Salkku osaa myös tottakai huomioida, jos jo omistettua osaketta ostetaan lisää tai myydään pois.
+Oletuksena on, että ainakin toistaiseksi kaikki osakkeet ovat Helsingin pörssistä (lähinnä markkinakorrelaation vuoksi) ja koska yksittäisten osakkeiden välistä korrelaatiota ei ilman suurta dataa saa selville, käytän toimialoja suuntaa-antavana informaationa. Järjestelmä siis käytännössä laskee ja näyttää salkun sisällön, arvon ja sen muutoksen, sekä riskipitoisuuden. Salkku osaa myös tottakai huomioida, jos jo omistettua osaketta ostetaan lisää tai myydään pois.
+
+Ohjelma myös pystyy tallentamaan osakesalkun ja avaamaan tallennetun tiedoston. Tallentaminen toteutetaan .salkku-päätteiseen tekstiedostoon.
 
 **Käyttäjät:** Salkunhoitaja
 
 **Salkunhoitajan toiminnot:**
 * salkun tarkastelu
 * osakkeiden lisäys/poisto
-* osakkeiden riskin lisääminen/muokkaaminen
+* osakkeiden tietojen muokkaaminen
 * salkun riskin tarkastelu
+* salkun tallentaminen/avaaminen
+
+**Rakenne:**
+
+Ohjelman rakenne koostuu kolmesta pääpakkauksesta, logiikasta, liittymästä ja tiedostonkäsittelystä. Nimet ovat näissä kuvaavia, logiikan luokat hoitavat salkun ohjelmalogiikan, liittymän luokat tarjoavat käyttöliittymät JFrameina ja tiedostonkäsittelyssä hoidetaan tiedoston lukeminen ja sille kirjoittaminen.
+
+Logiikan luokista keskeisin on Salkku, jolla on oma Riski-olionsa, sekä lista Osakkeista. Jokaisella Osakkeella on myös oma Riski-olionsa, joka on samanlainen kuin Salkun, sekä attribuuttina Toimiala-enum, jota käytetään korrelaatiolaskuun. Keskeisimmän (erityisesti riskeihin liittyvän) laskennan hoitaa Laskuri-luokka, jolla on attribuuttinaan laskuissa käytetty Salkku-olio.
+
+Liittymässä luokkia on peräti 11, joista osa on kuitenkin vain ilmoitusluontoisia "pomppuikkunoita". Näitä ovat TietoPuuttuuGUI, VaaraMuotoGUI, MyyntiOnnistuiGUI, VarmistaLopetusGUI sekä VarmistusUudestaSalkustaGUI. Myös AloitusGUI, joka toimii ohjelman aloitusikkunana, sekä TallennaGUI, johon syötetään uuden tallennettavan salkun nimi, ovat melko triviaaleja.
+
+Liittymän keskiössä on OsakesalkkuGUI, joka toimii ohjelman pääkäyttöliittymänä ja josta päästään sitten muihin toimintoihin (luokkiin) käsiksi. Näistä keskeisimmät ovat OstaOsakeGUI, MuutaTietojaGUI sekä MyyOsakeGUI, jotka osaltaan sitten voivat kutsua aiemmin esiteltyjä "pomppuikkunoita" tai sitten palauttaa OsakesalkkuGUI:lle tietoja, jotka se sitten siirtää logiikka-pakkauksen luokkiin jossa ohjelman loogiset toiminnot suoritetaan.
+
+Tiedostonkäsittelyssä on kaksi luokkaa, TiedostonLukija ja TiedostoonKirjoittaja, joita kutsutaan liittymä-pakkauksen metodeista. Tiedostonkäsittelijät sitten käyttävät logiikka-pakkauksen luokkia.
+
+![luokkakaavio](OsakesalkkuLuokkakaavio.png "Luokkakaavio")
+
+![sekvenssiAloitus](SekvenssiAloitus.png "Sekvenssikaavio aloituksesta")
+![sekvenssiOsto](SekvenssiOsto.png "Sekvenssikaavio ostosta")

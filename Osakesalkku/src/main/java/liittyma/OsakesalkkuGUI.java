@@ -137,7 +137,7 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
             }
         });
 
-        paivitaButton.setText("Päivitä");
+        paivitaButton.setText("Salkkunäkymä");
         paivitaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 paivitaButtonActionPerformed(evt);
@@ -242,7 +242,7 @@ public class OsakesalkkuGUI extends javax.swing.JFrame {
                                 .addComponent(salkunNimiLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(vaihdaSalkkuButton))
-                            .addComponent(jScrollPane2))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(ostaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

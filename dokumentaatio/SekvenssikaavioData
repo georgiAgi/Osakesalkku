@@ -1,15 +1,28 @@
 title Salkun avaaminen
-Käyttäjä->AloitusGUI: Valitsee .salkun
-AloitusGUI->*TiedostonLukija: viel .salkun
-loop luo osakkeet
-    TiedostonLukija->*Osake: luo osakeet
+Käyttäjä->AloitusGUI: valitseTiedostoButtonActionPerformed()
+Käyttäjä->AloitusGUI: aloitaButtonActionPerformed()
+AloitusGUI->*TiedostonLukija: lue()
+TiedostonLukija->*Salkku: new Salkku()
+loop lisää salkkuun osakkeet
+    TiedostonLukija->Salkku: lisaaOsake(merkkijonotOsakkeeksi())
 end
-TiedostonLukija->*Salkku: Muuta salkuksi
-TiedostonLukija-->AloitusGUI: Palauta salkku
+TiedostonLukija-->AloitusGUI: getSalkku()
 destroy TiedostonLukija
-AloitusGUI->*OsakesalkkuGUI: Aloita osakesalkun tarkastelu
+AloitusGUI->*OsakesalkkuGUI: new OsakesalkkuGUI(Salkku)
 destroy AloitusGUI
 
+
+title Osakkeen ostaminen
+Käyttäjä->OsakesalkkuGUI: ostaButtonActionPerformed()
+OsakesalkkuGUI->*OstaOsakettaGUI: new OstaOsakettaGUI()
+Käyttäjä->OstaOsakettaGUI: tallennaButtonActionPerformed()
+OstaOsakettaGUI-->OsakesalkkuGUI: ostaOsake()
+destroy OstaOsakettaGUI
+OsakesalkkuGUI->Salkku: lisaaOsake()
+
+
+
+-----------------------------------------------------------------
 
 title Osakkeen ostaminen
 Käyttäjä->OsakesalkkuGUI: Aloittaa ostamisen
@@ -30,13 +43,3 @@ end
 OstaOsakettaGUI-->OsakesalkkuGUI: Palauttaa osakkeen
 destroy OstaOsakettaGUI
 OsakesalkkuGUI->Salkku: Lisää osakkeen
-
-
-title Osakkeen ostaminen
-Käyttäjä->OsakesalkkuGUI: Aloittaa ostamisen
-OsakesalkkuGUI->*OstaOsakettaGUI: Avaa ikkunan
-Käyttäjä->OstaOsakettaGUI: Asettaa tiedot
-OstaOsakettaGUI-->OsakesalkkuGUI: Palauttaa osakkeen
-destroy OstaOsakettaGUI
-OsakesalkkuGUI->Salkku: Lisää osakkeen
-

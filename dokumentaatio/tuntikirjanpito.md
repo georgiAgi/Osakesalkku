@@ -11,3 +11,6 @@ Päivä | Tunnit | Kuvaus
 09.06.2016 | 6h | Käyttöliittymän huomista ja neljännen viikon dokumentaatiota
 15.06.2016 | 6h | Tiedoston kirjoitus ja lukeminen toteutettu
 16.06.2016 | 4h | Hienosäätöä ja viidennen viikon dokumentaatiota
+17.06.2016 | 2h | Koodikatselmointi 2
+22.06.2016 | 2h | Palautteiden mukaista korjailua, jar ja rakennekuvaus
+23.06.2016 | 4h | Viimeistelyä ja lopullisen palautuksen vaatimukset

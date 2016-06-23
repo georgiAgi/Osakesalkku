@@ -144,8 +144,10 @@ public class AloitusGUI extends javax.swing.JFrame {
         
         FileNameExtensionFilter filter = new FileNameExtensionFilter(".salkku", "salkku");
         tiedostonAvaus.setFileFilter(filter);
-
-        tiedostonAvaus.showOpenDialog(null);
+        if (tiedostonAvaus.showOpenDialog(null) == JFileChooser.CANCEL_OPTION) {
+            return;
+        }
+        
         f = tiedostonAvaus.getSelectedFile();
         valittuTextField.setText(f.getName());
     }//GEN-LAST:event_valitseTiedostoButtonActionPerformed

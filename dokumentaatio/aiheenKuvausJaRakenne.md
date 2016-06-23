@@ -15,6 +15,18 @@ Ohjelma myös pystyy tallentamaan osakesalkun ja avaamaan tallennetun tiedoston.
 * salkun riskin tarkastelu
 * salkun tallentaminen/avaaminen
 
+**Rakenne:**
+
+Ohjelman rakenne koostuu kolmesta pääpakkauksesta, logiikasta, liittymästä ja tiedostonkäsittelystä. Nimet ovat näissä kuvaavia, logiikan luokat hoitavat salkun ohjelmalogiikan, liittymän luokat tarjoavat käyttöliittymät JFrameina ja tiedostonkäsittelyssä hoidetaan tiedoston lukeminen ja sille kirjoittaminen.
+
+Logiikan luokista keskeisin on Salkku, jolla on oma Riski-olionsa, sekä lista Osakkeista. Jokaisella Osakkeella on myös oma Riski-olionsa, joka on samanlainen kuin Salkun, sekä attribuuttina Toimiala-enum, jota käytetään korrelaatiolaskuun. Keskeisimmän (erityisesti riskeihin liittyvän) laskennan hoitaa Laskuri-luokka, jolla on attribuuttinaan laskuissa käytetty Salkku-olio.
+
+Liittymässä luokkia on peräti 11, joista osa on kuitenkin vain ilmoitusluontoisia "pomppuikkunoita". Näitä ovat TietoPuuttuuGUI, VaaraMuotoGUI, MyyntiOnnistuiGUI, VarmistaLopetusGUI sekä VarmistusUudestaSalkustaGUI. Myös AloitusGUI, joka toimii ohjelman aloitusikkunana, sekä TallennaGUI, johon syötetään uuden tallennettavan salkun nimi, ovat melko triviaaleja.
+
+Liittymän keskiössä on OsakesalkkuGUI, joka toimii ohjelman pääkäyttöliittymänä ja josta päästään sitten muihin toimintoihin (luokkiin) käsiksi. Näistä keskeisimmät ovat OstaOsakeGUI, MuutaTietojaGUI sekä MyyOsakeGUI, jotka osaltaan sitten voivat kutsua aiemmin esiteltyjä "pomppuikkunoita" tai sitten palauttaa OsakesalkkuGUI:lle tietoja, jotka se sitten siirtää logiikka-pakkauksen luokkiin jossa ohjelman loogiset toiminnot suoritetaan.
+
+Tiedostonkäsittelyssä on kaksi luokkaa, TiedostonLukija ja TiedostoonKirjoittaja, joita kutsutaan liittymä-pakkauksen metodeista. Tiedostonkäsittelijät sitten luovat ja lukevan logiikka-luokan olioita.
+
 ![luokkakaavio](OsakesalkkuLuokkakaavio.png "Luokkakaavio")
 
 ![sekvenssiAloitus](SekvenssiAloitus.png "Sekvenssikaavio aloituksesta")

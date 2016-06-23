@@ -31,3 +31,12 @@ OstaOsakettaGUI-->OsakesalkkuGUI: Palauttaa osakkeen
 destroy OstaOsakettaGUI
 OsakesalkkuGUI->Salkku: Lisää osakkeen
 
+
+title Osakkeen ostaminen
+Käyttäjä->OsakesalkkuGUI: Aloittaa ostamisen
+OsakesalkkuGUI->*OstaOsakettaGUI: Avaa ikkunan
+Käyttäjä->OstaOsakettaGUI: Asettaa tiedot
+OstaOsakettaGUI-->OsakesalkkuGUI: Palauttaa osakkeen
+destroy OstaOsakettaGUI
+OsakesalkkuGUI->Salkku: Lisää osakkeen
+

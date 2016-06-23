@@ -271,7 +271,7 @@ public class MuutaTietojaGUI extends javax.swing.JFrame {
         String betaTxt = betaTextField.getText();
         String volaTxt = volaTextField.getText();
 
-        if (!onNumeerinen(arvoTxt) || arvoTxt.isEmpty()) {
+        if (!onNumeerinenJaPositiivinen(arvoTxt) || arvoTxt.isEmpty()) {
             if (!arvoTxt.isEmpty()) {
                 tietoVaarassaMuodossa();
                 return;
@@ -280,7 +280,7 @@ public class MuutaTietojaGUI extends javax.swing.JFrame {
             osake.setHinta(Double.parseDouble(arvoTxt));
         }
 
-        if (!onNumeerinen(betaTxt) || betaTxt.isEmpty()) {
+        if (!onNumeerinenJaPositiivinen(betaTxt) || betaTxt.isEmpty()) {
             if (!betaTxt.isEmpty()) {
                 tietoVaarassaMuodossa();
                 return;
@@ -289,7 +289,7 @@ public class MuutaTietojaGUI extends javax.swing.JFrame {
             osake.getRiski().setBeta(Double.parseDouble(betaTxt));
         }
 
-        if (!onNumeerinen(volaTxt) || volaTxt.isEmpty()) {
+        if (!onNumeerinenJaPositiivinen(volaTxt) || volaTxt.isEmpty()) {
             if (!volaTxt.isEmpty()) {
                 tietoVaarassaMuodossa();
                 return;
@@ -330,15 +330,18 @@ public class MuutaTietojaGUI extends javax.swing.JFrame {
         nykVolaLabel.setText(df2.format(osake.getRiski().getVolatiliteetti()));
     }
 
-    private boolean onNumeerinen(String str) {
+    private boolean onNumeerinenJaPositiivinen(String str) {
         try {
             double d = Double.parseDouble(str);
+            if (d < 0) {
+                return false;
+            }
         } catch (NumberFormatException nfe) {
             return false;
         }
         return true;
     }
-
+    
     private void tietoVaarassaMuodossa() {
         VaaraMuotoGUI huom = new VaaraMuotoGUI();
         huom.setVisible(true);
